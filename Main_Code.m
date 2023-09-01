@@ -8,6 +8,8 @@
 % called the Simplified Dynamical System (SDS), previoulsy defined by Park
 % and Scheeres.
 %
+% IMPORTANT NOTE: Variables marked with * prefix in introductory comments 
+% can be modified % by usr without a need for any modification in the code.
 % =======================================================================
 % MATLAB toolboxes used:
 % optimization_toolbox
@@ -15,10 +17,10 @@
 % 
 % =======================================================================
 % INPUTS = 
-% runMonteCarlo: Flag to run the Monte Carlo simulation
-% runGMMSTTMethod: Flag to run the semi-analytical probability of collision method 
-% plotThings: Flag to plot results
-% saveResultsToText: Save results to an output file
+% *runMonteCarlo: Flag to run the Monte Carlo simulation
+% *runGMMSTTMethod: Flag to run the semi-analytical probability of collision method 
+% *plotThings: Flag to plot results
+% *saveResultsToText: Save results to an output file
 %
 % VARIABLES = 
 % constants: Initial defined constants
@@ -47,8 +49,8 @@ rng('shuffle'); % Shuffle range for random point generation
 % Run Flags
 runMonteCarlo = 0; % Run New MC Pc calcs? 
 runGMMSTTMethod = 0;  % Run New GMMSTT Method Pc calcs?
-plotThings = 0;
-saveResultsToText = 1;
+plotThings = 1; % Plot results using new or presaved results
+saveResultsToText = 0; % Save results to a text file
 
 % Set constants and intitial states of the objects in conjunction
 [constants, ICState] = constantsAndInitialState();

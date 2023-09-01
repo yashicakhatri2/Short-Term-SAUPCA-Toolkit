@@ -111,8 +111,8 @@ for q = 1:length(constants.JMAX)
         mean2_del = [COE_to_Delaunay(COE_mean_2,constants.mu,1); 0; 0];
         mu_old1i_inter = mean1_del(1:6) - corrState.obj1.Del;
         mu_old2j_inter = mean2_del(1:6) - corrState.obj2.Del;
-        mu_old1i(:,i) = normalize(mu_old1i_inter,constants.rE,'vec','Del',1); % OG GMM mean at t = 0
-        mu_old2j(:,i) = normalize(mu_old2j_inter,constants.rE,'vec','Del',1); % OG GMM mean at t = 0
+        mu_old1i(:,i) = normalize(mu_old1i_inter,constants.rE,'vec','Del',1); 
+        mu_old2j(:,i) = normalize(mu_old2j_inter,constants.rE,'vec','Del',1); 
     end
     % Covariance
     Eq_to_Del1 = computeEqDelPartials(constants, corrState.obj1.COE, 1);
@@ -132,7 +132,7 @@ for q = 1:length(constants.JMAX)
                 clearvars mu_old1 mu_old2 so sf New_plot_COE New_plot_COE_2 P_prop_2 GMM_mean numericSTT1 numericSTT2 Q_new_1 Q_new_2
                 mu_old1 = mu_old1i(:,i);            
                 mu_old2 = mu_old2j(:,j);
-                [so, sf, New_plot_COE, New_plot_COE_2, GMM_mean, numericSTT1, numericSTT2] = FindTCAGMMSTTMethod(mu_old1, mu_old2, ICState, constants); % Both objects represented by GMMs
+                [so, sf, New_plot_COE, New_plot_COE_2, GMM_mean, numericSTT1, numericSTT2] = FindTCAGMMSTTMethod(mu_old1, mu_old2, ICState, constants);
 
                 [Q_new_1, Q_new_2] = Covariance_Propagation(Q_bar1_norm, Q_bar2_norm, New_plot_COE, New_plot_COE_2, mu_old1, mu_old2, constants, numericSTT1, numericSTT2); % Propagates both covariances
 
@@ -143,16 +143,16 @@ for q = 1:length(constants.JMAX)
             end
         end
     else
-        parpool('local',constants.nodes); % Choose number of nodes
+        parpool('local',constants.nodes); 
         parfor i = 1:jmax1
             for j = 1:jmax2
                 mu_old1 = mu_old1i(:,i);            
                 mu_old2 = mu_old2j(:,j);
-                [so, sf, New_plot_COE, New_plot_COE_2, ~, numericSTT1, numericSTT2] = FindTCAGMMSTTMethod(mu_old1, mu_old2, ICState, constants); % Both objects represented by GMMs
+                [so, sf, New_plot_COE, New_plot_COE_2, ~, numericSTT1, numericSTT2] = FindTCAGMMSTTMethod(mu_old1, mu_old2, ICState, constants); 
                 
                 [Q_new_1, Q_new_2] = Covariance_Propagation(Q_bar1_norm, Q_bar2_norm, New_plot_COE, New_plot_COE_2, mu_old1, mu_old2, constants, numericSTT1, numericSTT2); % Propagates both covariances
 
-                PC_GMMith = GMM_Pc_Cacls_Fun(so, sf, Q_new_1+Q_new_2, constants.R_star, constants.Pc_type); % GMM Probability of Collision Calculator
+                PC_GMMith = GMM_Pc_Cacls_Fun(so, sf, Q_new_1+Q_new_2, constants.R_star); % GMM Probability of Collision Calculator
                 PC_GMM = PC_GMM + (w_bar1(i) * w_bar2(j)) * PC_GMMith; % Total Pc calc: Sums up the weighed Pc for each individual GMM component
             end
         end

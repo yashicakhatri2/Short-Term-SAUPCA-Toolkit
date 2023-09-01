@@ -83,13 +83,13 @@ if constants.par == 0
         end
     end
 else
-    parpool('local',constants.nodes); % Choose number of nodes
+    parpool('local',constants.nodes); 
     parfor i = 1:points
         MC_Points_Cart = mvnrnd(State1, P);
         MC_Points_Cart_2 = mvnrnd(State2, P2);
 
-        COE1_new = COE_to_Cartesian_2(MC_Points_Cart,mu,0);
-        COE2_new = COE_to_Cartesian_2(MC_Points_Cart_2,mu,0);
+        COE1_new = COE_to_Cartesian(MC_Points_Cart,mu,0);
+        COE2_new = COE_to_Cartesian(MC_Points_Cart_2,mu,0);
        
         [S1, S2] = FindTCAMCMethod(COE1_new, COE2_new, P_prop, constants);
         xe = norm(S2(1:3) - S1(1:3));
@@ -125,38 +125,30 @@ if fig2 == 1
     plot(x_new_t_Cartesian(1,:),x_new_t_Cartesian(2,:), '.','Color',Color1); hold on;
     plot(x_new_t_Cartesian_2(1,:),x_new_t_Cartesian_2(2,:), '.','Color',Color2); hold on;
 
-%     plot(Cart_updated_2(1), Cart_updated_2(2), '*', 'MarkerSize', 10, 'LineWidth', 2)
     grid on;
     title('x-y')
     xlim([-inf,inf])
     ylim([-inf,inf])
     xlabel('x')
     ylabel('y')
-    % legend('MC Points','Object 2','Linear MC Prop','Linear Analytical Prop')
 
     subplot(1,3,2)
     plot(x_new_t_Cartesian(1,:),x_new_t_Cartesian(3,:), '.','Color',Color1); hold on;
     plot(x_new_t_Cartesian_2(1,:),x_new_t_Cartesian_2(3,:), '.','Color',Color2); hold on;
-%     plot(Cart_updated_2(1), Cart_updated_2(3), '*', 'MarkerSize', 10, 'LineWidth', 2)
     xlabel('x')
     ylabel('z')
     grid on;
     title('x-z')
     xlim([-inf,inf])
     ylim([-inf,inf])
-    % legend('MC Points','Object 2','Linear MC Prop','Linear Analytical Prop')
 
     subplot(1,3,3)
     plot(x_new_t_Cartesian(2,:),x_new_t_Cartesian(3,:), '.','Color',Color1); hold on;
     plot(x_new_t_Cartesian_2(2,:),x_new_t_Cartesian_2(3,:), '.','Color',Color2); hold on;
-%     plot(Cart_updated_2(2), Cart_updated_2(3), '*', 'MarkerSize', 10, 'LineWidth', 2)
     xlabel('y')
     ylabel('z')
     grid on;
     title('y-z')
-%     xlim([-100,100])
-%     ylim([-200,200])
-
 
 end
 
